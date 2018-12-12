@@ -16,6 +16,7 @@
 \usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{enumerate}
 
 % --- < bibliografia > ---
 \usepackage[
@@ -178,7 +179,7 @@ Nauka może być przeprowadzona przez:
 Collectiva learning ma na celu podzielenie się wiedzą przez uczestników, wymianę wiedzy, danych, refleksja nad nimi i efekt/odpowiedź
 
 \item Waves: a model of collective learning
-Dla urealnienia sytuacji należy założyć, że nie każdy agent ma połączenie z każdym, lecz są oni częścią sieci reprezentującej kontakty i powiązania. 
+Dla urealnienia sytuacji należy założyć, że nie każdy agent ma połączenie z każdym, lecz są oni częścią sieci reprezentującej kontakty i powiązania.
 Przykładowy model to:
 - N agentów w sieci G
 - Agenci mają jeden cel, jest nim budowa modelu z obserwacji
@@ -209,18 +210,80 @@ Działanie poszczególnych populacji można podzielić na etapy :
 Ten artykuł pokazuje w jaki sposób opisać modelem matematycznym zjawisko uczenia jednostki jak również społecznośći. Przy założeniach:
 
 \begin{itemize}
-\item nauka (zdobywanie doświadczenia) jest równoważna pracy
-\item jednostka posiada pewną początkową wiedzę
-\item doświadczenie to ilośc wykonanej dotychczas pracy
+        \item nauka (zdobywanie doświadczenia) jest równoważna pracy
+        \item jednostka posiada pewną początkową wiedzę
+        \item doświadczenie to ilośc wykonanej dotychczas pracy
 \end{itemize}
 
 Zauważono następujące cechy/wnioski:
 
 \begin{itemize}
-\item krzywa uczenia jednostki jest w przybliżeniu funkcją ekspotencjalną
-\item agent może uczyć się od każdego innego agenta, zdoność uczenia agenta X od agenta Y jest definiowana przez macierz  współczynników
-\item rozwiązanie zagadnienia optymalnego uczenia nie zależy od początkowych umiejętności agenta, gdzie zagadnienie optymalnego uczenia to maksymalizacja wyniku przy zadanym czasie i objętości pracy
+        \item krzywa uczenia jednostki jest w przybliżeniu funkcją ekspotencjalną
+        \item agent może uczyć się od każdego innego agenta, zdoność uczenia agenta X od agenta Y jest definiowana przez macierz  współczynników
+        \item rozwiązanie zagadnienia optymalnego uczenia nie zależy od początkowych umiejętności agenta, gdzie zagadnienie optymalnego uczenia to maksymalizacja wyniku przy zadanym czasie i objętości pracy
 \end{itemize}
+
+\item Bee colony optimization – a cooperative learning approach to complex transportation problems \cite{BeeColonyOptimization}
+
+Proces Collective Learning można w ciekawy sposób zaprezentować za pomocą zachowania pszczół w ulu, a dokładnie na podstawie ich metod zdobywania nektaru.Odbywa się to na założeniu, że każda podąża do źródła nektaru  za pszczołą, która dotarła już do skupiska kwiatów.  Każdy ul posiada tak zwany “parkiet do tańczenia”, na którym każda pszczoła, która odkryła nowe źródło może “tańczyć” by przekonać pozostałe pszczoły do tego, by za nią podążały. Jeśli jakakolwiek pszczoła postanowi wylecieć z ula w celu zdobycia pokarmu, zrobi to za pszczołą, która wcześniej “tańczyła”. Po powrocie do ula z zebranym nektarem, pszczoła ma 3 możliwości postępowania:
+\begin{itemize}
+        \item porzucić źródło pokarmu i zostać od nowa “pszczołą niezależną”
+        \item kontynuować zbieranie pokarmu bez “rekrutowania”
+        \item “tańczyć” przed wylotem do źródła pokarmu i dzięki temu rekrutować nowe pszczoły
+\end{itemize}
+
+Każda z pszczół, która rekrutuje inne pszczoły na konkretny obszar “tańczy” w inny sposób.
+Mechanizm, na podstawie którego pszczoły wybierają, za którą pszczołą podążać nie jest do końca opisany, ale można twierdzić, że jest on powiązany z jakością pokarmu, który jest uzyskiwany z danego obszaru. Warto zauważyć, że nie wszystkie pszczoły wyruszają by zdobyć nektar w tym samym momencie, więc ich działanie nie jest synchronizowane. Zostało jednak udowodnione, że liczba nowych pszczół, które będą wylatywały by zbierać nektar jest proporcjonalna do różnicy ilości wszystkich pszczół i tych obecnie zbierających.
+
+Na podstawie obserwacji zachowania pszczół można napisać algorytm, który będzie w pewien sposób symulował ich zachowanie:
+
+Bee Colony Optimization
+\begin{enumerate}
+        \item[$1)$] Initialization. Determine the number of bees B, and the number of iterations I. Select the set of stages ST = {st1, st2 ,…, stm}. Find any feasible solution x of the problem. This solution is the initial best solution.
+        \item[$2)$] Set i: = 1. Until i = I, repeat the following steps:
+        \item[$3)$] Set j = 1. Until j = m, repeat the following steps:
+                Forward pass: Allow bees to fly from the hive and to choose B partial solutions from the set of partial solutions Sj at stage stj .
+                Backward pass: Send all bees back to the hive.
+                Allow bees to exchange information about quality of the partial solutions created and to decide whether to abandon the created partial solution and become again uncommitted follower, continue to expand the same partial solution without recruiting the nestmates, or dance and thus recruit the nestmates before returning to the created partial solution. Set, j: = j + 1.
+        \item[$4)$] If the best solution xi obtained during the i-th iteration is better than the best- known solution, update the best known solution (x: = xi).
+        \item[$5)$] Set, i: = i + 1
+\end{enumerate}
+
+Inny model, który został stworzony to taki, że każda pszczoła posiada następujące cechy:
+\begin{itemize}
+\item physical properties:
+        \begin{itemize}
+                \item position (x, y)
+                \item position (x, y) 50 m/min)
+                \item position (x, y)
+        \end{itemize}
+\item perceptual properties:
+        \begin{itemize}
+                \item visual Distance outside (max.: 25 m)
+                \item hear Distance inside (max.: 0.1 m)
+                \item (smell Distance)
+        \end{itemize}
+
+\item memorizing properties:
+
+        \begin{itemize}
+                \item time Of Day Found
+                \item position (distance from hive; direction from hive)
+                \item profitability( =concentration)
+                \item (odour)
+                \item (colour)
+        \end{itemize}
+
+        \begin{itemize}
+                \item motivational properties (states):
+                \item homing Motivation (varies between 0 and 1)
+                \item foraging Motivation (0 or 1)
+                \item abandoning Tendency (varies between 0 and 1)
+        \end{itemize}
+\end{itemize}
+
+Ogólne zasady, każda pszczoła może lecieć maksymalnie na 500m odległość od ula, po przekroczeniu tej granicy od razu wraca do ula. By przekazać wiedzę, gdzie znajduje się lokalizacja miejsca z którego pobierane są zasoby, każda pszczoła musi wykonywać “taniec”.  Został stworzony parametr “transmission accurancy”, który definiuje “writting error” i “transmission error”, podczas wykonywania “tańca” jak i jego “odczytywania”.
+
 
 \end{enumerate}
 
