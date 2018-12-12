@@ -16,6 +16,15 @@ Praca ma na celu pokazanie rozprzestrzeniania się wiedzy w społeczeństwie w
 różnych hierarchiach zarządzania i jak ona wpływa na efektywność jednostek.
 
 Symulacja składa się ze środowiska i zasobów, w którym są umieszczani są agenci.
+### Idealistyczny model do rozważenia
+- N agentów w sieci G
+- Agenci mają jeden cel, jest nim budowa modelu z obserwacji
+- Istnieje model który nie będzie sprzeczny z jakąkolwiek informacją uzyskaną przez obserwacje
+- Każdy agent umie się uczyć to znaczy zaktualizować model, by nie był sprzeczny z obserwacjami o których wie
+- Interakcja między agentami polega na zapytaniach gdzie a1 proponuje a2 pewien model a - -następnie czeka na kontrargumenty ze strony a2 , które przeczą temu modelowi
+- Agenci dają poprawne odpowiedzi na zapytania
+- W dowolnym momencie agent może dostać nowe informacje
+- W każdym momencie jest zbiór niezależnych, równoczesnych komunikacji
 
 ### Agent
 
@@ -29,7 +38,7 @@ Symulacja składa się ze środowiska i zasobów, w którym są umieszczani są 
 
 -   traktowana w sposób ciągły lub dyskretny (?)
 -   może być trawała (dostępna po śmierci agenta) lub nietrwała (ginie wraz z agentem)
--   może być fałszywa (?)
+-   może być fałszywa (?) raczej bez tego
 
 ### Dzielenie się wiedzą
 
