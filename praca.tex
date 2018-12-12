@@ -157,38 +157,54 @@ backend=bibtex
 
 \section{Artykuły naukowe}
 \begin{enumerate}
-\item Impact of social media on collective learning
-Collective learning jest zarówno konwersacją bezpośrednią jak i na odległość.
-Wcześniejsza w rozwoju wersja to collectiva learning na spotkaniach służących wymianie wiedzy. Chęć skorzystania z danego sposobu nauki zależy od tego jak wygodnie się z niego korzysta i na ile uważa się, że poszerza on wiedzę uczącego się.
-Social media pozytywnie wpływają na chęć nauki i rezultaty uzyskiwane w jej trakcie.
 
-\item Conceptualizing Collective Learning and Knowledge Building in the context of migration and development
+\item Impact of social media on collective learning \cite{ImpactOfSocialMediaOnCollectiveLearning}
+
+Collective learning jest zarówno konwersacją bezpośrednią jak i na odległość. Wcześniejsza w rozwoju wersja to collectiva learning na spotkaniach służących wymianie wiedzy. Chęć skorzystania z danego sposobu nauki zależy od tego jak wygodnie się z niego korzysta i na ile uważa się, że poszerza on wiedzę uczącego się. Social media pozytywnie wpływają na chęć nauki i rezultaty uzyskiwane w jej trakcie.
+
+\item Conceptualizing Collective Learning and Knowledge Building in the context of migration and development \cite{ConceptualizingCollectiveLearning}
+
 Typy wiedzy:
-1.	Wiedza zdobyta przez doświadczenie, rozumienie danej rzeczy
-2.	Świadomość istnienia czegoś
-3.	Wiedza jako wyprowadzona przez rozumowanie
-4.	Posiadanie informacji lub zostanie nauczonym
+
+\begin{itemize}
+        \item Wiedza zdobyta przez doświadczenie, rozumienie danej rzeczy
+        \item Świadomość istnienia czegoś
+        \item Wiedza jako wyprowadzona przez rozumowanie
+        \item Posiadanie informacji lub zostanie nauczonym
+\end{itemize}
+
 Można podzielić też ze względu na sposób przechowywania:
-1.	Wewnętrzna- zdobyta przez doświadczenie lub wymianę wiedzy, polega na między innymi na rozumieniu danego zjawiska, nie da się jej ująć językiem czy formułami matematycznymi
-2.	Zewnętrzna- zapisana w jakiś sposób na zewnętrznym nośniku, nie jest przechowywana w umyśle, lecz np.: w książce, malowidłach itp. Jest ona bardziej uniwersalna, gdyż jej celem jest bycie zrozumiałą dla szerokiego kręgu odbiorców, wyrażona językiem, bądź regułami
+
+\begin{itemize}
+        \item Wewnętrzna- zdobyta przez doświadczenie lub wymianę wiedzy, polega na między innymi na rozumieniu danego zjawiska, nie da się jej ująć językiem czy formułami matematycznymi
+        \item Zewnętrzna- zapisana w jakiś sposób na zewnętrznym nośniku, nie jest przechowywana w umyśle, lecz np.: w książce, malowidłach itp. Jest ona bardziej uniwersalna, gdyż jej celem jest bycie zrozumiałą dla szerokiego kręgu odbiorców, wyrażona językiem, bądź regułami
+\end{itemize}
+
 Mądrość jest znajomością powodów, reguł, schematów które można wyprowadzić z danych, ale które również mogą służyć do przewidywania rzeczywistości.
+
 Nauka może być przeprowadzona przez:
-1.	Rozumowanie i dzielenie wiedzy
-2.	Działanie
+\begin{itemize}
+        \item Rozumowanie i dzielenie wiedzy
+        \item Działanie
+\end{itemize}
 
 Collectiva learning ma na celu podzielenie się wiedzą przez uczestników, wymianę wiedzy, danych, refleksja nad nimi i efekt/odpowiedź
 
-\item Waves: a model of collective learning
+\item Waves: a model of collective learning \cite{WavesModelOfCollectiveLearning}
+
 Dla urealnienia sytuacji należy założyć, że nie każdy agent ma połączenie z każdym, lecz są oni częścią sieci reprezentującej kontakty i powiązania.
 Przykładowy model to:
-- N agentów w sieci G
-- Agenci mają jeden cel, jest nim budowa modelu z obserwacji
-- Istnieje model który nie będzie sprzeczny z jakąkolwiek informacją uzyskaną przez obserwacje
-- Każdy agent umie się uczyć to znaczy zaktualizować model, by nie był sprzeczny z obserwacjami o których wie
-- Interakcja między agentami polega na zapytaniach gdzie a1 proponuje a2 pewien model a - -następnie czeka na kontrargumenty ze strony a2 , które przeczą temu modelowi
-- Agenci dają poprawne odpowiedzi na zapytania
-- W dowolnym momencie agent może dostać nowe informacje
-- W każdym momencie jest zbiór niezależnych, równoczesnych komunikacji
+
+\begin{itemize}
+        \item N agentów w sieci G
+        \item Agenci mają jeden cel, jest nim budowa modelu z obserwacji
+        \item Istnieje model który nie będzie sprzeczny z jakąkolwiek informacją uzyskaną przez obserwacje
+        \item Każdy agent umie się uczyć to znaczy zaktualizować model, by nie był sprzeczny z obserwacjami o których wie
+        \item Interakcja między agentami polega na zapytaniach gdzie a1 proponuje a2 pewien model a - następnie czeka na kontrargumenty ze strony a2, które przeczą temu modelowi
+        \item Agenci dają poprawne odpowiedzi na zapytania
+        \item W dowolnym momencie agent może dostać nowe informacje
+        \item W każdym momencie jest zbiór niezależnych, równoczesnych komunikacji
+\end{itemize}
 
 Nauka kończy się gdy każdy agent ma model spójny z całością obserwacji
 
@@ -198,12 +214,17 @@ By zapewnić spójną propagację informacji można dodać agentom następujące
 Można również zaimplementować etapowe dzielenie wiedzy. Wtedy agenci wracają z wiedzą, dzielą się nią aż do osiągnięcia spójności, a następnie rozpoczyna się następna tura. Oczywiście wymiana wiedzy i osiągnięcie spójnego zbioru hipotez nie odbywa się bez kosztu, więc w zależności od topologii i kosztu wymiany wiedzy może się okazać, że zbyt duży koszt spowoduje zmniejszenie skuteczności przez mniejszą możliwość pozyskiwania obserwacji.
 
 Poszczególne hipotezy można przyrównać, czy są spójne z danym zbiorem obserwacji, co znaczy, że :
-1.	Nie ma w niej żadnej obserwacji negatywnej np. dla rozmieszczenia zasobu mogłaby to być obserwacja, że na danym miejscu zasobu nie ma
-2.	W hipotezie uwzględnione są wszystkie obserwacje pozytywne
+\begin{itemize}
+        \item Nie ma w niej żadnej obserwacji negatywnej np. dla rozmieszczenia zasobu mogłaby to być obserwacja, że na danym miejscu zasobu nie ma
+        \item W hipotezie uwzględnione są wszystkie obserwacje pozytywne
+\end{itemize}
 
 Działanie poszczególnych populacji można podzielić na etapy :
-1.	Zbieranie wiedzy – agenci zbierają wiedzę
-2.	Faza nauki – agenci uczą się i dochodzą do zbioru spójnych hipotez
+
+\begin{itemize}
+        \item Zbieranie wiedzy – agenci zbierają wiedzę
+        \item Faza nauki – agenci uczą się i dochodzą do zbioru spójnych hipotez
+\end{itemize}
 
 \item Learning-by-doing \cite{LearningByDoing}
 
@@ -219,7 +240,7 @@ Zauważono następujące cechy/wnioski:
 
 \begin{itemize}
         \item krzywa uczenia jednostki jest w przybliżeniu funkcją ekspotencjalną
-        \item agent może uczyć się od każdego innego agenta, zdoność uczenia agenta X od agenta Y jest definiowana przez macierz  współczynników
+        \item agent może uczyć się od każdego innego agenta, zdoność uczenia agenta X od agenta Y jest definiowana przez macierz współczynników
         \item rozwiązanie zagadnienia optymalnego uczenia nie zależy od początkowych umiejętności agenta, gdzie zagadnienie optymalnego uczenia to maksymalizacja wyniku przy zadanym czasie i objętości pracy
 \end{itemize}
 
