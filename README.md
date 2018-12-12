@@ -75,3 +75,4 @@ Zbiór przydatnych linków i referencji
 
 -   [Learning by doing](https://www.sciencedirect.com/science/article/pii/S1474667015376382) -
     jak reprezentować poziom wiedzy w populacji
+-   [Bee colony optimization – a cooperative learning approach to complex transportation problems](https://dspace.library.uu.nl/bitstream/handle/1874/1182/80440109.pdf?sequence=1&fbclid=IwAR1dsfoOfKFLjW-ZZahdJgb0309qeHD09DhKKM2-uOPcZ6JZLREhU-mXZ7k)
