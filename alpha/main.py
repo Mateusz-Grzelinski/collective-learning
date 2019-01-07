@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sun Jan  6 15:10:09 2019
 
-@author: Jan
-"""
 import networkx as nt
 import math
 import numpy as np
