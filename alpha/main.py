@@ -73,9 +73,9 @@ if __name__ == "__main__":
 
     number_of_iterations = 7
     for _ in range(number_of_iterations):
-        for _, attributes in G.nodes(data=True):
+        for node, attributes in G.nodes(data=True):
             if (attributes['assigment'] is None):
-                get_knowledge(G, i, field)
+                get_knowledge(G, node, field)
         # powiększanie wiedzy
         sum = 0
         for _, attributes in G.nodes(data=True):
