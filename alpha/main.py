@@ -20,20 +20,20 @@ def get_knowledge(G, i, field):
     x = random.randrange(np.shape(field)[0])
     y = random.randrange(np.shape(field)[1])
     attributes = G.nodes[i]
-    if (field[x, y] > 0):
+    if field[x, y] > 0:
         attributes['knowledge'][x, y] = field[x, y] - 1
         attributes['age_of_knowledge'] = 1
         attributes['assigment'] = (x, y)
         field[x, y] = 0
 
 
-def share_knowledge(G):
+def share_knowledge(G, p):
     for node, attributes in G.nodes(data=True):
-        if (attributes['assigment'] is None):
+        if attributes['assigment'] is None:
             continue
 
         for index, map_knowledge in np.ndenumerate(attributes['knowledge']):
-            if (not map_knowledge > 0):
+            if not map_knowledge > 0:
                 continue
 
             nhood = set(nt.neighbors(G, node))
@@ -42,33 +42,31 @@ def share_knowledge(G):
                 # get neighbors of neighbors
                 for node in nhood.copy():
                     nhood.update(nt.neighbors(G, node))
-                    attrib=G.nodes[node]
-                    if(attrib['assigment'] is not None):
+                    attrib = G.nodes[node]
+                    if attrib['assigment'] is not None:
                         nhood.update(nt.neighbors(G, node))
-            #print(nhood);
 
             attributes['age_of_knowledge'] += 1
 
             for neighbour in nhood:
                 connected_node_attr = G.nodes[neighbour]
-                if (connected_node_attr['assigment'] is None and map_knowledge > 0 and random.random()<=p):
-                    map_knowledge=map_knowledge-1
-                if (connected_node_attr['assigment'] is None
-                        and map_knowledge > 0):
+                if connected_node_attr['assigment'] is None and map_knowledge > 0 and random.random() <= p:
+                    map_knowledge = map_knowledge - 1
+                if connected_node_attr['assigment'] is None and map_knowledge > 0:
                     map_knowledge = map_knowledge - 1
                     attributes['knowledge'][index] = map_knowledge
                     connected_node_attr['assigment'] = index
             break
 
 
-def iterate_knowledge(G, map, max_knowledge):
+def iterate_knowledge(G, map, max_knowledge, p):
     i = 0
     Iteration = namedtuple('KnowledgeIteration',
                            ['iteration', 'knowledge'])
     while True:
         # each node gains new knowledge
         for node, attributes in G.nodes(data=True):
-            if (attributes['assigment'] is not None):
+            if attributes['assigment'] is not None:
                 continue
             get_knowledge(G, node, map)
 
@@ -77,13 +75,14 @@ def iterate_knowledge(G, map, max_knowledge):
                             if attributes['assigment'] is not None)
 
         # they can share it with each other
-        share_knowledge(G)
+        share_knowledge(G, p)
 
         i += 1
 
+        yield Iteration(i, knowledge_sum)
+
         # stop if knowledge is maximum
         if knowledge_sum == max_knowledge:
-            yield Iteration(i, knowledge_sum)
             logging.debug('All knowledge is collected')
             break
 
@@ -92,11 +91,9 @@ def iterate_knowledge(G, map, max_knowledge):
             if i == max_iterations:
                 break
 
-        yield Iteration(i, knowledge_sum)
-
 
 def main(max_iterations, map_size, number_of_cells_with_resources,
-         value_of_resource, number_of_cliques, clique_size):
+         value_of_resource, number_of_cliques, clique_size, p):
     matrix_dim = (map_size, map_size)
 
     # base graph
@@ -113,7 +110,7 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
         map[index] = value_of_resource
 
     # all accessible knowledge
-    max_knowledge = number_of_cells_with_resources * value_of_resource
+    max_knowledge = number_of_cells_with_resources * value_of_resource / 2
 
     # setup initial node attributes
     for node, attributes in G.nodes(data=True):
@@ -124,7 +121,7 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
     # np.set_printoptions(threshold=np.nan)
     logging.debug(map)
 
-    for i in iterate_knowledge(G, map, max_knowledge):
+    for i in iterate_knowledge(G, map, max_knowledge, p):
         logging.debug('Iter {}, stan wiedzy: {}, '.format(*i))
         yield i
 
@@ -135,7 +132,7 @@ if __name__ == "__main__":
 
     # set None to disable max_iterations
     max_iterations = args.max_iter
-    # ammount of resources placed on map
+    # amount of resources placed on map
     number_of_cells_with_resources = args.number_of_cells_with_resources
     # value of single resource
     value_of_resource = args.value_of_resource
@@ -144,16 +141,19 @@ if __name__ == "__main__":
     # parameters for caveman graph
     number_of_cliques = args.number_of_cliques
     clique_size = args.clique_size
+    # probability of sharing knowledge
+    p = args.p
     # output image name
     image_name = '_'.join([
         args.output_image,
         'map:{0}x{0}'.format(map_size),
         'graph:{}:{}'.format(number_of_cliques, clique_size),
-        'res:{}:{}'.format(number_of_cells_with_resources, value_of_resource)
+        'res:{}:{}'.format(number_of_cells_with_resources, value_of_resource),
+        'p:{}'.format(p)
     ]) + '.png'
 
     data = main(max_iterations, map_size, number_of_cells_with_resources,
-                value_of_resource, number_of_cliques, clique_size)
+                value_of_resource, number_of_cliques, clique_size, p)
 
     iteration = []
     knowledge = []

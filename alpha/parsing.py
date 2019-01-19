@@ -46,6 +46,12 @@ def arg_parse():
         default=100,
         help='parameter for caveman graph')
     parser.add_argument(
+        '-p',
+        dest='p',
+        type=float,
+        default=1,
+        help='probability of sharing knowledge')
+    parser.add_argument(
         '-o',
         '--output-image',
         dest='output_image',
