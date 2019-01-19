@@ -42,11 +42,17 @@ def share_knowledge(G):
                 # get neighbors of neighbors
                 for node in nhood.copy():
                     nhood.update(nt.neighbors(G, node))
+                    attrib=G.nodes[node]
+                    if(attrib['assigment'] is not None):
+                        nhood.update(nt.neighbors(G, node))
+            #print(nhood);
 
             attributes['age_of_knowledge'] += 1
 
             for neighbour in nhood:
                 connected_node_attr = G.nodes[neighbour]
+                if (connected_node_attr['assigment'] is None and map_knowledge > 0 and random.random()<=p):
+                    map_knowledge=map_knowledge-1
                 if (connected_node_attr['assigment'] is None
                         and map_knowledge > 0):
                     map_knowledge = map_knowledge - 1
