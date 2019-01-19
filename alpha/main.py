@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jan 18 13:34:41 2019
-
-@author: Jan
-"""
-
 import networkx as nt
 import numpy as np
 import random
@@ -12,6 +5,8 @@ import logging
 import matplotlib.pyplot as plt
 from collections import namedtuple
 from parsing import arg_parse
+
+#można zahardkodować wartoci
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
@@ -94,34 +89,39 @@ def iterate_knowledge(G, map, max_knowledge, p):
 
 def main(max_iterations, map_size, number_of_cells_with_resources,
          value_of_resource, number_of_cliques, clique_size, p):
-    map_dim = (map_size, map_size)
-
+    matrix_dim = (map_size, map_size)
+#    map_size=10
+#    number_of_cells_with_resources=100
+#    value_of_resource=10
+#    number_of_cliques=20
+#    clique_size=5
+#    p=1
     # base graph
     G = nt.connected_caveman_graph(number_of_cliques, clique_size)
 
     # setup initial map conditions
-    map = np.zeros(map_dim, dtype=int)
+    mapa = np.zeros(matrix_dim, dtype=int)
 
     # fill number_of_cells_with_resources cells with resources
     random_unique_indexes = random.sample([(x, y) for x in range(map_size)
                                            for y in range(map_size)],
                                           number_of_cells_with_resources)
     for index in random_unique_indexes:
-        map[index] = value_of_resource
+        mapa[index] = value_of_resource
 
     # all accessible knowledge
-    max_knowledge = number_of_cells_with_resources * value_of_resource / 2
+    max_knowledge = min(number_of_cells_with_resources * value_of_resource,number_of_cliques*clique_size)
 
     # setup initial node attributes
     for node, attributes in G.nodes(data=True):
         attributes['assigment'] = None
-        attributes['knowledge'] = np.zeros(map_dim, dtype=int)
+        attributes['knowledge'] = np.zeros((map_size, map_size), dtype=int)
         attributes['age_of_knowledge'] = 0
 
     # np.set_printoptions(threshold=np.nan)
-    logging.debug(map)
+    logging.debug(mapa)
 
-    for i in iterate_knowledge(G, map, max_knowledge, p):
+    for i in iterate_knowledge(G, mapa, max_knowledge, p):
         logging.debug('Iter {}, stan wiedzy: {}, '.format(*i))
         yield i
 
@@ -144,14 +144,14 @@ if __name__ == "__main__":
     # probability of sharing knowledge
     p = args.p
     # output image name
-    image_name = '_'.join([
+    image_name = r"_".join([
         args.output_image,
-        'map:{0}x{0}'.format(map_size),
-        'graph:{}:{}'.format(number_of_cliques, clique_size),
-        'res:{}:{}'.format(number_of_cells_with_resources, value_of_resource),
-        'p:{}'.format(p)
-    ]) + '.png'
-
+        "map-{0}x{0}".format(map_size),
+        "graph-{}-{}".format(number_of_cliques, clique_size),
+        "res-{}-{}".format(number_of_cells_with_resources, value_of_resource),
+        "p-{}".format(p)
+    ])
+    #image_name=r"img.png"
     data = main(max_iterations, map_size, number_of_cells_with_resources,
                 value_of_resource, number_of_cliques, clique_size, p)
 
@@ -163,6 +163,4 @@ if __name__ == "__main__":
 
     fig = plt.figure()
     plt.plot(iteration, knowledge)
-    plt.xlabel('collective knowledge')
-    plt.ylabel('iteration')
     fig.savefig(image_name)
