@@ -47,10 +47,11 @@ def arg_parse():
         help='parameter for caveman graph')
     parser.add_argument(
         '-o',
-        '--output-file',
-        dest='output_file',
-        type=int,
+        '--output-image',
+        dest='output_image',
+        type=str,
+        default='learning',
         help='name of output graph (png image).'
-        'metadata will be appended to file name')
+        'metadata will be appended to image name')
 
     return parser.parse_args()

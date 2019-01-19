@@ -9,6 +9,8 @@ import networkx as nt
 import numpy as np
 import random
 import logging
+import matplotlib.pyplot as plt
+from collections import namedtuple
 from parsing import arg_parse
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
@@ -55,6 +57,8 @@ def share_knowledge(G):
 
 def iterate_knowledge(G, map, max_knowledge):
     i = 0
+    Iteration = namedtuple('KnowledgeIteration',
+                           ['iteration', 'knowledge'])
     while True:
         # each node gains new knowledge
         for node, attributes in G.nodes(data=True):
@@ -69,10 +73,12 @@ def iterate_knowledge(G, map, max_knowledge):
         # they can share it with each other
         share_knowledge(G)
 
+        i += 1
+
         # stop if knowledge is maximum
         if knowledge_sum == max_knowledge:
-            yield (i, knowledge_sum)
-            logging.info('All knowledge is collected')
+            yield Iteration(i, knowledge_sum)
+            logging.debug('All knowledge is collected')
             break
 
         # max_iterations does not need to be set
@@ -80,8 +86,7 @@ def iterate_knowledge(G, map, max_knowledge):
             if i == max_iterations:
                 break
 
-        i += 1
-        yield (i, knowledge_sum)
+        yield Iteration(i, knowledge_sum)
 
 
 def main(max_iterations, map_size, number_of_cells_with_resources,
@@ -112,8 +117,10 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
 
     # np.set_printoptions(threshold=np.nan)
     logging.debug(map)
-    for i, knowledge_sum in iterate_knowledge(G, map, max_knowledge):
-        logging.info('Iter {}, stan wiedzy: {}, '.format(i, knowledge_sum))
+
+    for i in iterate_knowledge(G, map, max_knowledge):
+        logging.debug('Iter {}, stan wiedzy: {}, '.format(*i))
+        yield i
 
 
 if __name__ == "__main__":
@@ -132,7 +139,22 @@ if __name__ == "__main__":
     number_of_cliques = args.number_of_cliques
     clique_size = args.clique_size
     # output image name
-    image_name = args.output_file
+    image_name = '_'.join([
+        args.output_image,
+        'map:{0}x{0}'.format(map_size),
+        'graph:{}:{}'.format(number_of_cliques, clique_size),
+        'res:{}:{}'.format(number_of_cells_with_resources, value_of_resource)
+    ]) + '.png'
 
-    main(max_iterations, map_size, number_of_cells_with_resources,
-         value_of_resource, number_of_cliques, clique_size)
+    data = main(max_iterations, map_size, number_of_cells_with_resources,
+                value_of_resource, number_of_cliques, clique_size)
+
+    iteration = []
+    knowledge = []
+    for i in data:
+        iteration.append(i.iteration)
+        knowledge.append(i.knowledge)
+
+    fig = plt.figure()
+    plt.plot(iteration, knowledge)
+    fig.savefig(image_name)

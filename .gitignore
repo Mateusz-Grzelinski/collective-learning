@@ -11,3 +11,5 @@
 *.toc
 
 praca.pdf
+.idea
+__pycache__
