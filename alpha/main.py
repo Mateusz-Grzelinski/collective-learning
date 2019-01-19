@@ -94,13 +94,13 @@ def iterate_knowledge(G, map, max_knowledge, p):
 
 def main(max_iterations, map_size, number_of_cells_with_resources,
          value_of_resource, number_of_cliques, clique_size, p):
-    matrix_dim = (map_size, map_size)
+    map_dim = (map_size, map_size)
 
     # base graph
     G = nt.connected_caveman_graph(number_of_cliques, clique_size)
 
     # setup initial map conditions
-    map = np.zeros(matrix_dim, dtype=int)
+    map = np.zeros(map_dim, dtype=int)
 
     # fill number_of_cells_with_resources cells with resources
     random_unique_indexes = random.sample([(x, y) for x in range(map_size)
@@ -115,7 +115,7 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
     # setup initial node attributes
     for node, attributes in G.nodes(data=True):
         attributes['assigment'] = None
-        attributes['knowledge'] = np.zeros((map_size, map_size), dtype=int)
+        attributes['knowledge'] = np.zeros(map_dim, dtype=int)
         attributes['age_of_knowledge'] = 0
 
     # np.set_printoptions(threshold=np.nan)
