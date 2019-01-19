@@ -9,6 +9,7 @@ import networkx as nt
 import numpy as np
 import random
 import logging
+import argparse
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
@@ -52,6 +53,37 @@ def share_knowledge(G):
             break
 
 
+def iterate_knowledge(G, map):
+    i = 0
+    while True:
+        # each node gains new knowledge
+        for node, attributes in G.nodes(data=True):
+            if (attributes['assigment'] is not None):
+                continue
+            get_knowledge(G, node, map)
+
+        # now collective knowledge is bigger
+        knowledge_sum = sum(1 for _, attributes in G.nodes(data=True)
+                            if attributes['assigment'] is not None)
+
+        # they can share it with each other
+        share_knowledge(G)
+
+        # stop if knowledge is maximum
+        max_knowledge = number_of_cells_with_resources * value_of_resource
+        if knowledge_sum == max_knowledge:
+            logging.info('All knowledge is collected')
+            break
+
+        # max_iterations does not need to be set
+        if max_iterations is not None:
+            if i == max_iterations:
+                break
+
+        i += 1
+        yield (i, knowledge_sum)
+
+
 def main(max_iterations, map_size, number_of_cells_with_resources,
          value_of_resource, number_of_cliques, cliques_size):
     matrix_dim = (map_size, map_size)
@@ -60,14 +92,14 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
     G = nt.connected_caveman_graph(number_of_cliques, cliques_size)
 
     # setup initial map conditions
-    field = np.zeros(matrix_dim, dtype=int)
+    map = np.zeros(matrix_dim, dtype=int)
 
-    # fill n cells with resources
+    # fill number_of_cells_with_resources cells with resources
     random_unique_indexes = random.sample([(x, y) for x in range(map_size)
                                            for y in range(map_size)],
                                           number_of_cells_with_resources)
     for index in random_unique_indexes:
-        field[index] = value_of_resource
+        map[index] = value_of_resource
 
     # setup initial node attributes
     for node, attributes in G.nodes(data=True):
@@ -76,41 +108,9 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
         attributes['age_of_knowledge'] = 0
 
     # np.set_printoptions(threshold=np.nan)
-    logging.debug(field)
-
-    i = 0
-    while True:
-        try:
-            # each node gains new knowledge
-            for node, attributes in G.nodes(data=True):
-                if (attributes['assigment'] is not None):
-                    continue
-                get_knowledge(G, node, field)
-
-            # now collective knowledge is bigger
-            knowledge_sum = sum(1 for _, attributes in G.nodes(data=True)
-                                if attributes['assigment'] is not None)
-
-            logging.info('Iter {}, stan wiedzy: {}, '.format(i, knowledge_sum))
-
-            # they can share it with each other
-            share_knowledge(G)
-
-            # stop if knowledge is maximum
-            max_knowledge = number_of_cells_with_resources * value_of_resource
-            if knowledge_sum == max_knowledge:
-                logging.info('All knowledge is collected')
-                break
-
-            # max_iterations does not need to be set
-            if max_iterations is not None:
-                if i == max_iterations:
-                    break
-
-            i += 1
-        except KeyboardInterrupt:
-            logging.info('Keyboard interrupt. Stopping.')
-            break
+    logging.debug(map)
+    for i, knowledge_sum in iterate_knowledge(G, map):
+        logging.info('Iter {}, stan wiedzy: {}, '.format(i, knowledge_sum))
 
 
 if __name__ == "__main__":
