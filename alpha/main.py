@@ -9,7 +9,7 @@ import networkx as nt
 import numpy as np
 import random
 import logging
-import argparse
+from parsing import arg_parse
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
@@ -85,11 +85,11 @@ def iterate_knowledge(G, map):
 
 
 def main(max_iterations, map_size, number_of_cells_with_resources,
-         value_of_resource, number_of_cliques, cliques_size):
+         value_of_resource, number_of_cliques, clique_size):
     matrix_dim = (map_size, map_size)
 
     # base graph
-    G = nt.connected_caveman_graph(number_of_cliques, cliques_size)
+    G = nt.connected_caveman_graph(number_of_cliques, clique_size)
 
     # setup initial map conditions
     map = np.zeros(matrix_dim, dtype=int)
@@ -109,22 +109,27 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
 
     # np.set_printoptions(threshold=np.nan)
     logging.debug(map)
-    for i, knowledge_sum in iterate_knowledge(G, map):
+    for i, knowledge_sum in iterate_knowledge(G, map, max_knowledge):
         logging.info('Iter {}, stan wiedzy: {}, '.format(i, knowledge_sum))
 
 
 if __name__ == "__main__":
+    args = arg_parse()
+    logging.info('using values: {}'.format(vars(args)))
+
     # set None to disable max_iterations
-    max_iterations = None
+    max_iterations = args.max_iter
     # ammount of resources placed on map
-    number_of_cells_with_resources = 50
+    number_of_cells_with_resources = args.number_of_cells_with_resources
     # value of single resource
-    value_of_resource = 11
+    value_of_resource = args.value_of_resource
     # map is square
-    map_size = 50
+    map_size = args.map_size
     # parameters for caveman graph
-    number_of_cliques = 10
-    cliques_size = 100
+    number_of_cliques = args.number_of_cliques
+    clique_size = args.clique_size
+    # output image name
+    image_name = args.output_file
 
     main(max_iterations, map_size, number_of_cells_with_resources,
-         value_of_resource, number_of_cliques, cliques_size)
+         value_of_resource, number_of_cliques, clique_size)
