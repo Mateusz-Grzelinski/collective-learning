@@ -18,8 +18,9 @@ import random
 number_of_cells_with_resources = 50
 values_of_resource = 11
 map_size = 50
-n1 = 10
-n2 = 100
+n1 = 10    #iloć klik dla caveman graph
+n2 = 100      #iloć w klice dla caveman graph
+p=0.9       #szansa na przekazanie wiedzy
 
 
 def get_knowledge(G, i, field):
@@ -47,7 +48,9 @@ def share_knowledge(G):
             for _ in range(attributes['age_of_knowledge']):
                 # get neighbors of neighbors
                 for node in nhood.copy():
-                    nhood.update(nt.neighbors(G, node))
+                    attrib=G.nodes[node]
+                    if(attrib['assigment'] is not None):
+                        nhood.update(nt.neighbors(G, node))
             #print(nhood);
 
             attributes['age_of_knowledge'] += 1
@@ -57,11 +60,13 @@ def share_knowledge(G):
             # print(node)
             for neighbour in nhood:
                 connected_node_attr = G.nodes[neighbour]
-                if (connected_node_attr['assigment'] is None and map_knowledge > 0):
+                if (connected_node_attr['assigment'] is None and map_knowledge > 0 and random.random()<=p):
                     map_knowledge=map_knowledge-1
                     attributes['knowledge'][index] = map_knowledge
                     connected_node_attr['assigment'] = index
             break
+
+
 
 
 if __name__ == "__main__":
