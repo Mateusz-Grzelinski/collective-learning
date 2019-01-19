@@ -163,4 +163,6 @@ if __name__ == "__main__":
 
     fig = plt.figure()
     plt.plot(iteration, knowledge)
+    plt.xlabel('collective knowledge')
+    plt.ylabel('iteration')
     fig.savefig(image_name)
