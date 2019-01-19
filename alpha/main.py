@@ -8,6 +8,9 @@ Created on Fri Jan 18 13:34:41 2019
 import networkx as nt
 import numpy as np
 import random
+import logging
+
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
 
 
 def get_knowledge(G, i, field):
@@ -36,13 +39,9 @@ def share_knowledge(G):
                 # get neighbors of neighbors
                 for node in nhood.copy():
                     nhood.update(nt.neighbors(G, node))
-            # print(nhood);
 
             attributes['age_of_knowledge'] += 1
 
-            # print(nhood)
-            # print(temp_age)
-            # print(node)
             for neighbour in nhood:
                 connected_node_attr = G.nodes[neighbour]
                 if (connected_node_attr['assigment'] is None
@@ -76,31 +75,47 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
         attributes['knowledge'] = np.zeros((map_size, map_size), dtype=int)
         attributes['age_of_knowledge'] = 0
 
-    # print(type(G))
-    # print(nt.neighbors(G,5))
-    np.set_printoptions(threshold=np.nan)
-    print(field)
+    # np.set_printoptions(threshold=np.nan)
+    logging.debug(field)
 
-    number_of_iterations = 10
-    for i in range(number_of_iterations):
-        for node, attributes in G.nodes(data=True):
-            if (attributes['assigment'] is not None):
-                continue
-            # print(node)
-            get_knowledge(G, node, field)
+    i = 0
+    while True:
+        try:
+            # each node gains new knowledge
+            for node, attributes in G.nodes(data=True):
+                if (attributes['assigment'] is not None):
+                    continue
+                get_knowledge(G, node, field)
 
-        # powiększanie wiedzy
-        knowledge_sum = sum(1 for _, attributes in G.nodes(data=True)
-                            if attributes['assigment'] is not None)
+            # now collective knowledge is bigger
+            knowledge_sum = sum(1 for _, attributes in G.nodes(data=True)
+                                if attributes['assigment'] is not None)
 
-        print("Iter {}, stan wiedzy: {}, ".format(i, knowledge_sum))
+            logging.info('Iter {}, stan wiedzy: {}, '.format(i, knowledge_sum))
 
-        share_knowledge(G)
+            # they can share it with each other
+            share_knowledge(G)
+
+            # stop if knowledge is maximum
+            max_knowledge = number_of_cells_with_resources * value_of_resource
+            if knowledge_sum == max_knowledge:
+                logging.info('All knowledge is collected')
+                break
+
+            # max_iterations does not need to be set
+            if max_iterations is not None:
+                if i == max_iterations:
+                    break
+
+            i += 1
+        except KeyboardInterrupt:
+            logging.info('Keyboard interrupt. Stopping.')
+            break
 
 
 if __name__ == "__main__":
     # set None to disable max_iterations
-    max_iterations = 10
+    max_iterations = None
     # ammount of resources placed on map
     number_of_cells_with_resources = 50
     # value of single resource
