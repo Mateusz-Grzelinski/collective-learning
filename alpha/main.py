@@ -5,12 +5,6 @@ Created on Fri Jan 18 13:34:41 2019
 @author: Jan
 """
 
-# -*- coding: utf-8 -*-
-
-# -*- coding: utf-8 -*-
-
-# -*- coding: utf-8 -*-
-
 import networkx as nt
 import numpy as np
 import random
@@ -48,7 +42,7 @@ def share_knowledge(G):
                 # get neighbors of neighbors
                 for node in nhood.copy():
                     nhood.update(nt.neighbors(G, node))
-            #print(nhood);
+            # print(nhood);
 
             attributes['age_of_knowledge'] += 1
 
@@ -58,7 +52,7 @@ def share_knowledge(G):
             for neighbour in nhood:
                 connected_node_attr = G.nodes[neighbour]
                 if (connected_node_attr['assigment'] is None and map_knowledge > 0):
-                    map_knowledge=map_knowledge-1
+                    map_knowledge = map_knowledge - 1
                     attributes['knowledge'][index] = map_knowledge
                     connected_node_attr['assigment'] = index
             break
