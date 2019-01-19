@@ -53,7 +53,7 @@ def share_knowledge(G):
             break
 
 
-def iterate_knowledge(G, map):
+def iterate_knowledge(G, map, max_knowledge):
     i = 0
     while True:
         # each node gains new knowledge
@@ -70,8 +70,8 @@ def iterate_knowledge(G, map):
         share_knowledge(G)
 
         # stop if knowledge is maximum
-        max_knowledge = number_of_cells_with_resources * value_of_resource
         if knowledge_sum == max_knowledge:
+            yield (i, knowledge_sum)
             logging.info('All knowledge is collected')
             break
 
@@ -100,6 +100,9 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
                                           number_of_cells_with_resources)
     for index in random_unique_indexes:
         map[index] = value_of_resource
+
+    # all accessible knowledge
+    max_knowledge = number_of_cells_with_resources * value_of_resource
 
     # setup initial node attributes
     for node, attributes in G.nodes(data=True):
