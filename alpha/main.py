@@ -1,16 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Jan 18 13:34:41 2019
-
-@author: Jan
-"""
-
-# -*- coding: utf-8 -*-
-
-# -*- coding: utf-8 -*-
-
-# -*- coding: utf-8 -*-
-
 import networkx as nt
 import numpy as np
 import random
