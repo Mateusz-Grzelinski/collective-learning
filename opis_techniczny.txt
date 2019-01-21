@@ -1,0 +1,15 @@
+Opis techniczny
+Do realizacji naszego projektu skorzystaliśmy z języka programowania pyton, w szczególności z biblioteki networkx do tworzenia i obsługi grafów, numpy, do reprezentacji wiedzy, oraz matplotlib.pyplot do tworzenia wykresów danych wynikowych.
+Program można uruchomić za pomocą main.py –h max_iterations map_size number_of_cells_with_resources value_of_resource  number_of_cliques  clique_size p 
+Możliwości programu:
+1. max_iterations - określa maksymalną ilość iteracji którą program wykona, gdzie iteracja jest turą zbierania i dzielenia się wiedzą.
+2. map_size – określa długość boku kwadratowej mapy zasobów
+3. number_of_cells_with_resources – oznacza ilość pól na których będą zasoby
+4. value_of_resource – oznacza ile zasobów będzie na każdym z wylosowanych pól
+5. number_of_cliques – oznacza ilość klik w caveman_connected_graph
+6. clique_size – oznacza wielkość klik (grup agentów które składają się z jednakowej liczby agentów połączonych grafem pełnym)
+7. p – parametr oznaczający procentową szansę na przekazanie wiedzy
+Program składa się z trzech głównych funkcji:
+Get_knowledge – odpowiada za znajdowanie wiedzy przez agentów,
+Share_knowledge – odpowiada za przekazywanie sobie wiedzy przez agentów.
+Iterate_knowledge – odpowiada za czas, przebieg poszczególnych etapów rozwoju wiedzy w populacji, a także za zapisywanie wyników.
