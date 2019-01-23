@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 from collections import namedtuple
 from parsing import arg_parse
 
-#można zahardkodować wartoci
+# można zahardkodować wartoci
 
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
 
 def get_knowledge(G, i, field):
@@ -54,10 +54,9 @@ def share_knowledge(G, p):
             break
 
 
-def iterate_knowledge(G, map, max_knowledge, p):
+def iterate_knowledge(G, max_iterations, map, max_knowledge, p):
     i = 0
-    Iteration = namedtuple('KnowledgeIteration',
-                           ['iteration', 'knowledge'])
+    Iteration = namedtuple('KnowledgeIteration', ['iteration', 'knowledge'])
     while True:
         # each node gains new knowledge
         for node, attributes in G.nodes(data=True):
@@ -78,7 +77,7 @@ def iterate_knowledge(G, map, max_knowledge, p):
 
         # stop if knowledge is maximum
         if knowledge_sum == max_knowledge:
-            logging.debug('All knowledge is collected')
+            logging.info('All knowledge is collected')
             break
 
         # max_iterations does not need to be set
@@ -87,15 +86,15 @@ def iterate_knowledge(G, map, max_knowledge, p):
                 break
 
 
-def main(max_iterations, map_size, number_of_cells_with_resources,
+def main(max_iterations, max_knowledge, map_size, number_of_cells_with_resources,
          value_of_resource, number_of_cliques, clique_size, p):
     matrix_dim = (map_size, map_size)
-#    map_size=10
-#    number_of_cells_with_resources=100
-#    value_of_resource=10
-#    number_of_cliques=20
-#    clique_size=5
-#    p=1
+    # map_size=10
+    # number_of_cells_with_resources=100
+    # value_of_resource=10
+    # number_of_cliques=20
+    # clique_size=5
+    # p=1
     # base graph
     G = nt.connected_caveman_graph(number_of_cliques, clique_size)
 
@@ -110,7 +109,9 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
         mapa[index] = value_of_resource
 
     # all accessible knowledge
-    max_knowledge = min(number_of_cells_with_resources * value_of_resource,number_of_cliques*clique_size)
+    if max_knowledge is None:
+        max_knowledge = min(number_of_cells_with_resources * value_of_resource,
+                            number_of_cliques * clique_size)
 
     # setup initial node attributes
     for node, attributes in G.nodes(data=True):
@@ -121,7 +122,7 @@ def main(max_iterations, map_size, number_of_cells_with_resources,
     # np.set_printoptions(threshold=np.nan)
     logging.debug(mapa)
 
-    for i in iterate_knowledge(G, mapa, max_knowledge, p):
+    for i in iterate_knowledge(G, max_iterations, mapa, max_knowledge, p):
         logging.debug('Iter {}, stan wiedzy: {}, '.format(*i))
         yield i
 
@@ -151,9 +152,17 @@ if __name__ == "__main__":
         "res-{}-{}".format(number_of_cells_with_resources, value_of_resource),
         "p-{}".format(p)
     ])
-    #image_name=r"img.png"
-    data = main(max_iterations, map_size, number_of_cells_with_resources,
-                value_of_resource, number_of_cliques, clique_size, p)
+    # image_name=r"img.png"
+
+    data = main(
+        max_iterations=max_iterations,
+        max_knowledge=None,
+        map_size=map_size,
+        number_of_cells_with_resources=number_of_cells_with_resources,
+        value_of_resource=value_of_resource,
+        number_of_cliques=number_of_cells_with_resources,
+        clique_size=clique_size,
+        p=p)
 
     iteration = []
     knowledge = []
