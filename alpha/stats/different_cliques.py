@@ -4,29 +4,23 @@ from common_stats import stats_from_data_list
 from main import main
 from statistics import mean, stdev
 
-if __name__ == "__main__":
-    max_iterations = None
-    map_size = 50
-    number_of_cells_with_resources = 10
-    value_of_resource = 10
-    number_of_cliques = 10
-    clique_size = 100
-    p = 1
 
+def generate_chart(max_iterations, map_size, number_of_cells_with_resources,
+                   value_of_resource, number_of_cliques, clique_size, p):
     image_name = r"_".join([
         "different_number_of_cliques",
         "map-{0}x{0}".format(map_size),
-        "graph-{}-{}".format(number_of_cliques, clique_size),
+        "graph-{}-{}".format(number_of_cliques, int(clique_size / number_of_cliques)),
         "res-{}-{}".format(number_of_cells_with_resources, value_of_resource),
         "p-{}".format(p)
-    ])
+    ]) + '.png'
 
     repeat = 5
 
     average_max_iter = []
     std_devs = []
     stats = []
-    clique_list = [1, 2, 3, 4, 5, 10, 20, 30]
+    clique_list = [1, 2, 4, 5, 10, 20, 25]
     for _ in range(repeat):
         data = []
         # same number of agents, different number_of_cliques
@@ -39,7 +33,7 @@ if __name__ == "__main__":
                 number_of_cells_with_resources=number_of_cells_with_resources,
                 value_of_resource=value_of_resource,
                 number_of_cliques=number_of_cliques,
-                clique_size=clique_size,
+                clique_size=int(clique_size / number_of_cliques),
                 p=p)
             data.append(list(sample))
         sample_stats = stats_from_data_list(data)
@@ -64,3 +58,19 @@ if __name__ == "__main__":
     plt.xlabel('number of cliques')
     plt.ylabel('iterations to max knowledge')
     fig.savefig(image_name)
+
+
+if __name__ == "__main__":
+    max_iterations = None
+    map_size = 50
+    number_of_cells_with_resources = 100
+    value_of_resource = 10
+    number_of_cliques = 10
+    clique_size = 100
+    p = 1
+
+    # the same number of agents with different parameters
+    for number_of_cells_with_resources, value_of_resource in [(1, 10), (100, 1)]:
+        for p in [0.1, 1]:
+            generate_chart(max_iterations, map_size, number_of_cliques, value_of_resource,
+                           number_of_cliques, clique_size, p)
