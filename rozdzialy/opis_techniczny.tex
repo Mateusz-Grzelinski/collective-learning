@@ -1,8 +1,21 @@
 \section{Opis techniczny}
 
 Do realizacji naszego projektu skorzystaliśmy z języka programowania pyton, w szczególności z biblioteki networkx do tworzenia i obsługi grafów, numpy, do reprezentacji wiedzy, oraz matplotlib.pyplot do tworzenia wykresów danych wynikowych.
-Program można uruchomić za pomocą $main.py –h$
-Możliwości programu:
+
+Program posiada zależności wyspecyfikowane w $requirements.txt$.
+
+Program posiada wbudowaną pomoc. Parametry są szczegółowo opisane poniżej
+\begin{lstlisting}
+python main.py -h
+\end{lstlisting}
+
+\newpage
+Można uruchomić go z domyślnymi wartościami parametrów:
+\begin{lstlisting}
+python main.py
+\end{lstlisting}
+
+Parametry programu:
 
 \begin{itemize}
 
@@ -12,7 +25,7 @@ Możliwości programu:
 \item  value\_of\_resource – oznacza ile zasobów będzie na każdym z wylosowanych pól
 \item  number\_of\_cliques – oznacza ilość klik w caveman\_connected\_graph
 \item  clique\_size – oznacza wielkość klik (grup agentów które składają się z jednakowej liczby agentów połączonych grafem pełnym)
-\item p – parametr oznaczający procentową szansę na przekazanie wiedzy
+\item  p – parametr oznaczający procentową szansę na przekazanie wiedzy
 
 \end{itemize}
 
@@ -22,6 +35,6 @@ Program składa się z trzech głównych funkcji:
 
 \item Get\_knowledge – odpowiada za znajdowanie wiedzy przez agentów,
 \item Share\_knowledge – odpowiada za przekazywanie sobie wiedzy przez agentów.
-\item Iterate\_knowledge – odpowiada za czas, przebieg poszczególnych etapów rozwoju wiedzy w populacji, a także za zapisywanie wyników.
+\item Iterate\_knowledge – odpowiada za czas(ilośc iteracji), przebieg poszczególnych etapów rozwoju wiedzy w populacji, a także za zapisywanie wyników.
 
 \end{itemize}
