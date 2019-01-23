@@ -45,9 +45,9 @@ def share_knowledge(G, p):
 
             for neighbour in nhood:
                 connected_node_attr = G.nodes[neighbour]
-                if connected_node_attr['assigment'] is None and map_knowledge > 0 and random.random() <= p:
-                    map_knowledge = map_knowledge - 1
-                if connected_node_attr['assigment'] is None and map_knowledge > 0:
+                if not map_knowledge > 0:
+                    continue
+                if connected_node_attr['assigment'] is None and random.random() <= p:
                     map_knowledge = map_knowledge - 1
                     attributes['knowledge'][index] = map_knowledge
                     connected_node_attr['assigment'] = index
