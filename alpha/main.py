@@ -171,5 +171,7 @@ if __name__ == "__main__":
         knowledge.append(i.knowledge)
 
     fig = plt.figure()
-    plt.plot(iteration, knowledge)
+    plt.plot(iteration, [int(i * 100 / max(knowledge)) for i in knowledge])
+    plt.xlabel('iteration')
+    plt.ylabel('gathered knowledge')
     fig.savefig(image_name)
