@@ -1,0 +1,8 @@
+\section{Wnioski}
+
+Zwiększanie parametru p-prawdopodobieñstwa przekazania wiedzy zwiększa szybkość zdobycia wiedzy przez całą populacje niezalełnie od ilości klik jak i ilości agentów w danej klice.
+
+Zwiększanie ilości klik wpływa na zmniejszenie szybkości rozchodzenia się więdzy w populacji. Mniejsza ilość połączeń w grafie, powoduje mniejsze rzeczywiste prawdopodobieństwo przekazania wiedzy efekt warunkowania zdarzeñ. Występują jednak anomalnie takie jak na (zał.1). W specyficznych sytuacjach gdy ilość zasobów dostępnych przewyższa ilość dostępnych aktorów, populacja dąży do eksploatacji jednego źródła, zamiast synchronicznego pobierania z większej ilości źródeł. Problem ten zostaje rozwiązany dzięki większej ilości klik, gdyż mniejsze szansa na rozprzestrzenienie się wiedzy wewnątrz populacji zmusza innych aktorów do poszukiwania zamiast eksploatacji.
+
+
+Prędkość zdobywania wiedzy jest wprost skorelowana z ilością zasobu dostępnego z konkretnego pola. Jeśli ilość aktorów w klice jest równa iloćci dostępnego zasobu z danej kliki cała klika skupia się na eksploatacji danego źródła przez co zmniejsza ona ogólne prawdopodobieñstwo uzyskania wiedzy przez pozostałą część populacji. Jeśli natomiast ilość dostępnego zasobu z konkretnego źródła przewyższa ilość aktorów w klice, to wiedza zostanie dalej przekazana do pozostałych klik, nie zmuszając ich do ponowego odkrywania danego źródła. W przeciwnej sytuacji, jeśli ilość dostępnego zasobu jest zdecydowanie mniejsza od ilości aktorów w klice pewna część danej kliki, która nie eksploatuje tego źródła, będzie miała mniejszą szansę na zdobycie wiedzy, co wydłuży czas pozyskiwania wiedzy przez całą populację.
